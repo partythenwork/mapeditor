@@ -3,56 +3,13 @@ import random
 from pygame.locals import *
 from sys import exit
 import spritesheet
-
-class Block(pygame.sprite.Sprite):
-
-    mapx = 0
-    mapy = 0
-    value = 0 #0 to 63
-    # Constructor. Pass in the color of the block,
-    # and its x and y position
-
-		   
-    def __init__(self,ss):
-       # Call the parent class (Sprite) constructor
-       pygame.sprite.Sprite.__init__(self)
-		
-       self.image = ss.get_image(0,0,32,32)
-       self.rect = self.image.get_rect()
-
-    def change_tile(self,ss):
-        if self.value%12 != 11:
-            self.value += 1
-        self.display_tile(ss)
-       
-       
-    def display_tile(self,ss):
-       #calculate where on spritesheet to get image
-        x = (self.value%12)*TILE_WIDTH
-        y = int(self.value/12)*TILE_HEIGHT
-        self.image = ss.get_image(x,y,TILE_WIDTH,TILE_HEIGHT)
-
+import Block
+import constants
 
 pygame.init()
 
-#screen dimensions
-screen_width=800
-screen_height=600
-map_WIDTH = 10
-map_HEIGHT = 5
-TILE_WIDTH = 32
-TILE_HEIGHT = 32
-map_startx = 100
-map_starty = 200
 
-# Define some colors
-BLACK = (  0,   0,   0)
-WHITE = (255, 255, 255)
-RED   = (255,   0,   0)
-GREEN = (  0, 255,   0)
-BLUE =  (  0,   0, 255)
-
-screen = pygame.display.set_mode((screen_width, screen_height), 0, 32)
+screen = pygame.display.set_mode((constants.screen_width, constants.screen_height), 0, 32)
 caption = pygame.display.set_caption('Map Editor')
 font = pygame.font.SysFont("arial", 17);
 font_height = font.get_linesize()
@@ -64,7 +21,7 @@ farmsprites = spritesheet.SpriteSheet("crops_fields.png")
 all_sprites_list = pygame.sprite.Group()
 
 #initialize map
-map = [[0 for i in range(map_WIDTH)] for j in range(map_HEIGHT)]
+map = [[0 for i in range(constants.map_WIDTH)] for j in range(constants.map_HEIGHT)]
 #create a block and add to all_sprites_list group
 y=0
 for row in map:
@@ -72,10 +29,10 @@ for row in map:
     for element in row:
         value =  random.randrange(0,96)
         map[y][x] = value
-        square = Block(farmsprites)
+        square = Block.Block(farmsprites)
         square.value = value
-        square.rect.x = x*TILE_WIDTH + map_startx
-        square.rect.y = y*TILE_HEIGHT + map_starty
+        square.rect.x = x*constants.TILE_WIDTH + constants.map_startx
+        square.rect.y = y*constants.TILE_HEIGHT + constants.map_starty
         square.display_tile(farmsprites)
         square.mapx=x
         square.mapy=y
