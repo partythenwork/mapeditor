@@ -1,5 +1,4 @@
 import pygame
-import constants
 
 class Block(pygame.sprite.Sprite):
 
@@ -8,13 +7,17 @@ class Block(pygame.sprite.Sprite):
     value = 0 #0 to 63
     # Constructor. Pass in the color of the block,
     # and its x and y position
+    width = 0
+    height = 0
 
 		   
-    def __init__(self,sheet):
+    def __init__(self,sheet,width,height):
        # Call the parent class (Sprite) constructor
        pygame.sprite.Sprite.__init__(self)
+       self.width = width
+       self.height = height
 		
-       self.image = sheet.get_image(0,0,constants.TILE_WIDTH,constants.TILE_HEIGHT)
+       self.image = sheet.get_image(0,0,width,height)
        self.rect = self.image.get_rect()
 
     def change_tile(self,sheet):
@@ -27,6 +30,6 @@ class Block(pygame.sprite.Sprite):
        
     def display_tile(self,sheet):
        #calculate where on spritesheet to get image
-        x = (self.value%12)*constants.TILE_WIDTH
-        y = int(self.value/12)*constants.TILE_HEIGHT
-        self.image = sheet.get_image(x,y,constants.TILE_WIDTH,constants.TILE_HEIGHT)
+        x = (self.value%12)*self.width
+        y = int(self.value/12)*self.height
+        self.image = sheet.get_image(x,y,self.width,self.height)

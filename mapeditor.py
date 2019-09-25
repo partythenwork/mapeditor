@@ -29,10 +29,10 @@ for row in map:
     for element in row:
         value =  random.randrange(0,96)
         map[y][x] = value
-        square = Block.Block(farmsprites)
+        square = Block.Block(farmsprites,constants.TILE_WIDTH,constants.TILE_HEIGHT)
         square.value = value
-        square.rect.x = x*constants.TILE_WIDTH + constants.map_startx
-        square.rect.y = y*constants.TILE_HEIGHT + constants.map_starty
+        square.rect.x = x*square.width + constants.map_startx
+        square.rect.y = y*square.height + constants.map_starty
         square.display_tile(farmsprites)
         square.mapx=x
         square.mapy=y
