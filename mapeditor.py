@@ -21,8 +21,8 @@ def printmap(a,option=0):
         file = open("data.txt","w")
         file.write(string)
         file.close()
-    else:
-        print(string)
+    
+    print(string)
 
 pygame.init()
 
@@ -36,6 +36,8 @@ farmsprites = spritesheet.SpriteSheet("crops_fields.png")
 
 #All blocks are here
 all_sprites_list = pygame.sprite.Group()
+#all control sprites are here
+control_sprites_list = pygame.sprite.Group()
 
 #initialize map
 map = [[0 for i in range(constants.map_WIDTH)] for j in range(constants.map_HEIGHT)]
@@ -57,7 +59,9 @@ for row in map:
         x+=1
     y+=1
         
-
+#after loading map load save icon
+save_icon = Block.savebutton([500,50])
+control_sprites_list.add(save_icon)
 
 #main loop 
 while True:
@@ -66,14 +70,18 @@ while True:
             exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                printmap(map,1)
+                printmap(map,0)
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             for sprite in all_sprites_list:
                 if sprite.rect.collidepoint(x,y):
-                    sprite.change_tile(farmsprites)
+                    sprite.onclick(farmsprites)
                     map[sprite.mapy][sprite.mapx] = sprite.value
                     print("you clicked on tile at ",sprite.mapx,",",sprite.mapy," at mouse:",mouse_pos," changing value to:",sprite.value)
+            for sprite in control_sprites_list:
+                if sprite.rect.collidepoint(x,y):
+                    sprite.onclick()
+                    printmap(map,1)
     screen.fill((255, 255, 255))
     
     x, y = pygame.mouse.get_pos()
@@ -81,6 +89,7 @@ while True:
     
     # Draw all the spites
     all_sprites_list.draw(screen)
+    control_sprites_list.draw(screen)
     
     text_surface = font.render("x coordinate : " + str(x) + " y coordinate : " + str(y), True, (0,0,0))
     screen.blit(text_surface, (10, font_height))
