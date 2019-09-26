@@ -6,8 +6,25 @@ import spritesheet
 import Block
 import constants
 
-pygame.init()
+def printmap(a,option=0):
+    string=""
+    for i in range(len(a)):
+        for j in range(len(a[i])):
+            if j > 0:
+                string += "-"
+            valuestring = str(a[i][j])
+            if len(valuestring) < 2:
+                valuestring = "0"+valuestring     
+            string += valuestring
+        string += "\n"
+    if option == 1:
+        file = open("data.txt","w")
+        file.write(string)
+        file.close()
+    else:
+        print(string)
 
+pygame.init()
 
 screen = pygame.display.set_mode((constants.screen_width, constants.screen_height), 0, 32)
 caption = pygame.display.set_caption('Map Editor')
@@ -47,12 +64,16 @@ while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                printmap(map,1)
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             for sprite in all_sprites_list:
                 if sprite.rect.collidepoint(x,y):
                     sprite.change_tile(farmsprites)
-                    print("you clicked on tile at ",sprite.mapx,",",sprite.mapy," at mouse:",mouse_pos)
+                    map[sprite.mapy][sprite.mapx] = sprite.value
+                    print("you clicked on tile at ",sprite.mapx,",",sprite.mapy," at mouse:",mouse_pos," changing value to:",sprite.value)
     screen.fill((255, 255, 255))
     
     x, y = pygame.mouse.get_pos()
