@@ -32,7 +32,7 @@ font = pygame.font.SysFont("arial", 17);
 font_height = font.get_linesize()
 
 #load a spritesheet -- must come after screen first
-farmsprites = spritesheet.SpriteSheet("crops_fields.png")
+farmsprites = spritesheet.SpriteSheet('images/crops_fields.png')
 
 #All blocks are here
 all_sprites_list = pygame.sprite.Group()

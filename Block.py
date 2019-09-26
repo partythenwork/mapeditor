@@ -43,7 +43,7 @@ class savebutton(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
         
         if savebutton.image is None:
-            savebutton.image = pygame.image.load('floppy-icon.png').convert()
+            savebutton.image = pygame.image.load('images/floppy-icon.png').convert()
         self.image = savebutton.image
         self.rect = self.image.get_rect()
         self.rect.topleft = location
