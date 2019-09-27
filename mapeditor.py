@@ -23,6 +23,19 @@ def printmap(a,option=0):
         file.close()
     
     print(string)
+    
+def loadmap(a,option=0):
+    file = open("data.txt","r")
+    lines = file.readlines()
+    for line in lines:
+        line.rstrip() #remove all \n and trailing whitespaces
+        elements = line.split("-")
+        for string in elements:
+            value = int(string)
+            print(value)
+        print()
+    file.close()
+            
 
 pygame.init()
 
@@ -60,7 +73,11 @@ for row in map:
     y+=1
         
 #after loading map load save icon
-save_icon = Block.savebutton([500,50])
+
+load_icon = Block.savebutton([500,200],"load")
+control_sprites_list.add(load_icon)
+
+save_icon = Block.savebutton([500,50],"save")
 control_sprites_list.add(save_icon)
 
 #main loop 
@@ -81,7 +98,11 @@ while True:
             for sprite in control_sprites_list:
                 if sprite.rect.collidepoint(x,y):
                     sprite.onclick()
-                    printmap(map,1)
+                    if sprite.type == "save":
+                        printmap(map,1)
+                    elif sprite.type == "load":
+                        loadmap(map,1)
+
     screen.fill((255, 255, 255))
     
     x, y = pygame.mouse.get_pos()

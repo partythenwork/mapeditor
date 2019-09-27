@@ -37,14 +37,21 @@ class Block(pygame.sprite.Sprite):
         
 class savebutton(pygame.sprite.Sprite):
     image = None
+    type = ""
 
-    def __init__(self,location):
+    def __init__(self,location,type):
 
         pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
         
-        if savebutton.image is None:
-            savebutton.image = pygame.image.load('images/floppy-icon.png').convert()
+        self.type = type
+        if self.type == 'save':
+            savebutton.image = pygame.image.load('images/save.png').convert()
+            print("saving button --LOADED")
+        if self.type == 'load':
+            savebutton.image = pygame.image.load('images/load.png').convert()
+            print("loading button --LOADED")
         self.image = savebutton.image
+        self.image.set_colorkey((0,0,0))
         self.rect = self.image.get_rect()
         self.rect.topleft = location
  
@@ -52,5 +59,8 @@ class savebutton(pygame.sprite.Sprite):
         #pygame.draw.rect(self.image, color , [500, 50, width, height])
     def onclick(self):
         #if self.value%12 != 11:
-        print("saving file");
+        if self.type == "save":
+            print("saving file")
+        if self.type == "load":
+            print("loading file")
 
